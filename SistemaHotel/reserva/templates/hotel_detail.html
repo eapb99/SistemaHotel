@@ -1,20 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-        <h1>{{hotel.hotel_name}}</h1>
-        <p>Direccion: {{hotel.address}}</p>
-        <p>Telefono :{{hotel.phone}}</p>
-        <ul>
-            {% for room in rooms %}
-                <li>
-                    {{room.code}} - {{room.room_type.name}}
-                </li>
-            {% endfor %}
-        </ul>
-</body>
-</html>
+{% extends "body.html" %}
+{% block title %}{{ hotel.hotel_name }} | Detalle del Hotel{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- Portada del hotel -->
+    <div class="card text-white">
+        <img src="" class="card-img" alt="Hotel Cover Image">
+        <div class="card-img-overlay d-flex align-items-end" style="background: rgba(0, 0, 0, 0.4)">
+            <h1 class="card-title display-4">{{ hotel.hotel_name }}</h1>
+        </div>
+    </div>
+
+    <!-- Información General -->
+    <div class="row mt-4 text-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">📍 Dirección</div>
+                <div class="card-body">
+                    <p class="card-text">{{ hotel.address }}, {{ hotel.city }}, {{ hotel.country }}</p>
+                    {% if hotel.postal_code %}
+                    <p class="text-muted">CP: {{ hotel.postal_code }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">📞 Contacto</div>
+                <div class="card-body">
+                    {% if hotel.phone %}
+                    <p>{{ hotel.phone }}</p>
+                    {% else %}
+                    <p class="text-muted">No disponible</p>
+                    {% endif %}
+                    <p>⭐ Calificación: {{ hotel.stars_rating }} estrellas</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">🛏️ Habitaciones</div>
+                <div class="card-body">
+                    <p>Total: {{ hotel.num_rooms }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Habitaciones del hotel -->
+    <div class="mt-5">
+        <h3 class="mb-3">Tipos de habitaciones disponibles</h3>
+
+        {% if rooms %}
+            <div class="row">
+                {% for room in rooms %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Código: {{ room.code }}</h5>
+                                <p class="card-text">
+                                    Tipo: {{ room.room_type.name }}<br>
+                                    Camas: {{ room.room_type.num_beds }}<br>
+                                    Precio: ${{ room.room_type.price }}<br>
+                                    Estado: 
+                                    {% if room.is_available %}
+                                        <span class="badge bg-success">Disponible</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Ocupada</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted">No hay habitaciones registradas.</p>
+        {% endif %}
+    </div>
+
+    <!-- Footer de contacto -->
+    <div class="mt-5 text-center">
+        <hr>
+        <p>Contáctanos para más información</p>
+        <p><i class="fas fa-phone"></i> {{ hotel.phone }} | <i class="fas fa-globe"></i> www.hotel{{ hotel.hotel_id }}.com</p>
+    </div>
+</div>
+{% endblock %}

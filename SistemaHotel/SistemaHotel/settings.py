@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     ## REGISTRAR APPLICACIONES
 
-    'reserva'
+    'reserva',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -86,16 +87,6 @@ DATABASES = {
     }
 }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DBNAME'),
-        'USER': config('USER'),
-        'PASSWORD': config('PASSWORD'),
-        'HOST': config('HOST'),
-        'PORT': config('PORT'),
-    }
-}
 
 
 # Password validation
@@ -138,3 +129,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_URL = 'login'  # Redirige a la página de login si no está autenticado
+LOGIN_REDIRECT_URL = 'hotel_list'  # Página a la que el usuario será redirigido después de iniciar sesión
+LOGOUT_REDIRECT_URL = 'login'  # Página a la que el usuario será redirigido después de cerrar sesión
+

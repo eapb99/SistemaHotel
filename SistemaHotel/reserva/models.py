@@ -38,4 +38,4 @@ class Room(models.Model):
     is_available = models.BooleanField()
 
     def __str__(self):
-        return f"{self.code}"
+        return f"{self.code} {self.hotel}"

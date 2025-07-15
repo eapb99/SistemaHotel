@@ -1,37 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+{% extends "body.html" %}
+{% block title %}Lista de Hoteles{% endblock %}
 
-</head>
-<body>
-    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Country</th>
-      <th scope="col">Direccion</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for hotel in hoteles %}
-        <tr>
-            <th scope="row">{{hotel.hotel_id}}</th>
-            <td>{{hotel.hotel_name}}</td>
-            <td>{{hotel.country}}</td>
-            <td>{{hotel.address}}</td>
-        </tr>
-    {% endfor%}
+{% block content %}
+<div class="container mt-4">
 
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Lista de Hoteles</h2>
+        <a href="{% url 'hotel_create' %}" class="btn btn-success">➕ Nuevo Hotel</a>
+    </div>
 
-  </tbody>
-</table>
-   
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    {% if hoteles %}
+        <table class="table table-striped table-hover shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>País</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hotel in hoteles %}
+                    <tr>
+                        <td>{{ hotel.hotel_id }}</td>
+                        <td>{{ hotel.hotel_name }}</td>
+                        <td>{{ hotel.country }}</td>
+                        <td>{{ hotel.address }}</td>
+                        <td>
+                            <a href="{% url 'hotel_update' hotel.hotel_id %}" class="btn btn-warning btn-sm">Editar</a> 
+                             <form action="{% url 'hotel_delete' hotel.hotel_id %}" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este hotel?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                            <a href="{% url 'hotel_detail' hotel.hotel_id %}" class="btn btn-info btn-sm">Ver</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-</body>
-</html>
+        <!-- Paginación -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if hoteles.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ hoteles.previous_page_number }}">Anterior</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+                {% endif %}
+
+                {% for num in hoteles.paginator.page_range %}
+                    {% if hoteles.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if hoteles.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ hoteles.next_page_number }}">Siguiente</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% else %}
+        <div class="alert alert-info">No hay hoteles registrados.</div>
+    {% endif %}
+
+</div>
+{% endblock %}
