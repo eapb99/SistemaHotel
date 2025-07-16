@@ -6,5 +6,4 @@ env/
 venv/
 *.env
 /static/
-media/
-SistemaHotel/accounts
+# media/

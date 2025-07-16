@@ -15,6 +15,8 @@ class HotelForm(forms.ModelForm):
             'stars_rating': forms.NumberInput(attrs={'class': 'form-control'}),
             'num_rooms': forms.NumberInput(attrs={'class': 'form-control'}),
             'postal_code': forms.TextInput(attrs={'class': 'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'})  # Campo de imagen
+
         }
 
 

@@ -16,6 +16,7 @@ class Hotel(models.Model):
     )
     num_rooms = models.SmallIntegerField()
     postal_code = models.CharField(max_length=10,null=True, blank=True)
+    image = models.ImageField(upload_to='hotels/', null=True, blank=True)  # Nuevo campo de imagen
 
 
 

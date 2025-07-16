@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 from .forms import *
 
@@ -8,6 +9,7 @@ from .forms import *
 from .models import *
 
 
+@login_required
 def hotel_list(request):
     hoteles_list = Hotel.objects.all().order_by('hotel_id')
     paginator = Paginator(hoteles_list, 5)  # 5 hoteles por página
@@ -16,15 +18,18 @@ def hotel_list(request):
     return render(request, 'hotel_list.html', {'hoteles': hoteles})
 
 
+@login_required
 def hotel_detail(request,id):
     hotel = Hotel.objects.get(pk = id)
     rooms = Room.objects.filter(hotel=hotel)
     return render(request, 'hotel_detail.html',{'hotel':hotel,'rooms':rooms})
 
 
+@login_required
 def hotel_create(request):
     if request.method == 'POST':
-        form = HotelForm(request.POST)
+        form = HotelForm(request.POST, request.FILES)
+        print(request.POST)
         if form.is_valid():
             form.save()
             return redirect('hotel_list')
@@ -33,6 +38,7 @@ def hotel_create(request):
     return render(request, 'hotel_create.html', {'form': form})
 
 
+@login_required
 def hotel_delete(request, id):
     hotel = Hotel.objects.get(pk=id)
     if request.method == 'POST':
@@ -40,6 +46,7 @@ def hotel_delete(request, id):
         return redirect('hotel_list')
     
 
+@login_required
 def hotel_update(request, pk):
     hotel = get_object_or_404(Hotel, pk=pk)
     if request.method == 'POST':
@@ -52,7 +59,7 @@ def hotel_update(request, pk):
     return render(request, 'hotel_create.html', {'form': form, 'form_title': 'Editar Hotel'})
 
 
-
+@login_required
 def room_list(request):
     rooms = Room.objects.select_related('hotel', 'room_type').order_by('room_id')
     paginator = Paginator(rooms, 5)  # 5 habitaciones por página
@@ -61,6 +68,7 @@ def room_list(request):
     return render(request, 'room_list.html', {'rooms': rooms})
 
 
+@login_required
 def room_create(request):
     if request.method == 'POST':
         form = RoomForm(request.POST)
@@ -71,6 +79,7 @@ def room_create(request):
         form = RoomForm()
     return render(request, 'room_create.html', {'form': form, 'form_title': 'Nueva Habitación'})
 
+@login_required
 def room_update(request, pk):
     room = get_object_or_404(Room, pk=pk)
     if request.method == 'POST':
@@ -82,6 +91,7 @@ def room_update(request, pk):
         form = RoomForm(instance=room)
     return render(request, 'room_create.html', {'form': form, 'form_title': 'Editar Habitación'})
 
+@login_required
 def room_delete(request, pk):
     room = get_object_or_404(Room, pk=pk)
     if request.method == 'POST':
