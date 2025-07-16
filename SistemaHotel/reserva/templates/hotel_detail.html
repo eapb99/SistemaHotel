@@ -1,17 +1,23 @@
 {% extends "body.html" %}
 {% block title %}{{ hotel.hotel_name }} | Detalle del Hotel{% endblock %}
 
+{% load static %}
 {% block content %}
 <div class="container mt-4">
 
     <!-- Portada del hotel -->
     <div class="card text-white">
-        <img src="" class="card-img" alt="Hotel Cover Image">
+        {% if hotel.image %}
+            <!-- <img src="{{ hotel.image.url }}" alt="{{ hotel.hotel_name }}" style="max-width: 300px;"> -->
+            <img src="{{ hotel.image.url }}" class="card-img" alt="Hotel Cover Image">
+        {% else %}
+            <p>No hay imagen disponible.</p>
+        {% endif %}
+
         <div class="card-img-overlay d-flex align-items-end" style="background: rgba(0, 0, 0, 0.4)">
             <h1 class="card-title display-4">{{ hotel.hotel_name }}</h1>
         </div>
     </div>
-
     <!-- Información General -->
     <div class="row mt-4 text-center">
         <div class="col-md-4">
@@ -81,7 +87,9 @@
             <p class="text-muted">No hay habitaciones registradas.</p>
         {% endif %}
     </div>
-
+    <div>
+       <a href="{% url 'hotel_list' %}" class="btn btn-primary">Volver al inicio</a>
+    </div>
     <!-- Footer de contacto -->
     <div class="mt-5 text-center">
         <hr>

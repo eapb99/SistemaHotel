@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -129,7 +130,24 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+MEDIA_URL = '/media/'  # URL pública para acceder a los archivos de medios
+MEDIA_ROOT = BASE_DIR/ 'media'
+
+
+
+
+
+
+
+
+
+
+
 LOGIN_URL = 'login'  # Redirige a la página de login si no está autenticado
 LOGIN_REDIRECT_URL = 'hotel_list'  # Página a la que el usuario será redirigido después de iniciar sesión
 LOGOUT_REDIRECT_URL = 'login'  # Página a la que el usuario será redirigido después de cerrar sesión
+
+
 
