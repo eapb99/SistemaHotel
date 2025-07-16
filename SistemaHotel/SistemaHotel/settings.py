@@ -10,24 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-import os
 from pathlib import Path
-from decouple import config
+from decouple import config, Csv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)   
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', cast=Csv())
 
 # Application definition
 
@@ -124,20 +121,60 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-
+# STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-MEDIA_URL = '/media/'  # URL pública para acceder a los archivos de medios
+# MEDIA_URL = '/media/'  # URL pública para acceder a los archivos de medios
+STATICFILES_DIRS = [BASE_DIR / 'static']  # Directorio de archivos estáticos en el proyecto
 MEDIA_ROOT = BASE_DIR/ 'media'
 
 
+AZURE_ACCOUNT_NAME = config('AZURE_ACCOUNT_NAME')
+AZURE_ACCOUNT_KEY = config('AZURE_ACCOUNT_KEY')
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+
+if DEBUG:
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+else:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.azure_storage.AzureStorage',
+            'OPTIONS': {
+                'azure_container': 'media'
+            },
+        },
+        'staticfiles': {
+            'BACKEND': 'storages.backends.azure_storage.AzureStorage',
+            'OPTIONS': {
+                'azure_container': 'static'
+            },
+        },
+    }
+
+    STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/static/'
+    MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/media/'
 
 
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'ERROR',
+    },
+}
 
 
 
