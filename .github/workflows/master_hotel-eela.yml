@@ -23,18 +23,9 @@ jobs:
         run: pip install poetry
       
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --no-root 
       
-      - name: Collect static files
-        run: | 
-          cd SistemaHotel
-          poetry run python manage.py collectstatic --noinput
-
-      - name: Run migrations
-        run: | 
-          cd SistemaHotel
-          poetry run python manage.py migrate
-
+      
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
