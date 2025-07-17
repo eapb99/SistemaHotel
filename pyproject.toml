@@ -3,7 +3,7 @@ name = "django-web"
 version = "0.1.0"
 description = "Sistema Hotel"
 authors = [
-    {name = "eapb99",email = "emaalpar@espol.edu.ec"}
+    {name = "eapb99", email = "emaalpar@espol.edu.ec"}
 ]
 license = {text = "MIT"}
 requires-python = ">=3.12,<4"
@@ -15,6 +15,12 @@ dependencies = [
     "azure-storage-blob (>=12.24.1,<13.0.0)",
     "django-storages[azure] (>=1.14.5,<2.0.0)"
 ]
+
+[tool.poetry]
+name = "django-web"
+version = "0.1.0"
+description = "Sistema Hotel"
+authors = ["eapb99 <emaalpar@espol.edu.ec>"]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
