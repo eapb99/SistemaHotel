@@ -19,12 +19,12 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Poetry
-        run: pip install poetry
-      
-      - name: Install dependencies
-        run: poetry install
-      
+      - name: Create virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          
       - name: Install dependencies
         run: |
           source venv/bin/activate
