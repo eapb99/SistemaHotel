@@ -62,5 +62,4 @@ jobs:
         with:
           app-name: 'hotel-eela'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          ##_6F6F5392ABD34B2C97918F7970523137 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6F6F5392ABD34B2C97918F7970523137 }}
