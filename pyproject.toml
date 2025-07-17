@@ -24,3 +24,9 @@ build-backend = "poetry.core.masonry.api"
 packages = [
     { include = "SistemaHotel" }
 ]
+name = "django-web"
+version = "0.1.0"
+description = "Sistema Hotel"
+authors = [
+    {name = "eapb99",email = "emaalpar@espol.edu.ec"}
+]
