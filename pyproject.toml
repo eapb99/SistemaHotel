@@ -3,9 +3,8 @@ name = "django-web"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "eapb99",email = "emaalpar@espol.edu.ec"}
+    {name = "eapb99", email = "emaalpar@espol.edu.ec"}
 ]
-readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "asgiref (==3.9.1)",
@@ -31,7 +30,11 @@ dependencies = [
     "urllib3 (==2.5.0)"
 ]
 
-
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [
+    { include = "SistemaHotel" }
+]
