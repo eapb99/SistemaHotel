@@ -1,33 +1,19 @@
 [project]
 name = "django-web"
 version = "0.1.0"
-description = ""
+description = "Sistema Hotel"
 authors = [
-    {name = "eapb99", email = "emaalpar@espol.edu.ec"}
+    {name = "eapb99",email = "emaalpar@espol.edu.ec"}
 ]
-requires-python = ">=3.12"
+license = {text = "MIT"}
+requires-python = ">=3.12,<4"
 dependencies = [
-    "asgiref (==3.9.1)",
-    "azure-core (==1.35.0)",
-    "azure-storage-blob (==12.26.0)",
-    "certifi (==2025.7.14)",
-    "cffi (==1.17.1)",
-    "charset-normalizer (==3.4.2)",
-    "cryptography (==45.0.5)",
-    "django (==5.2.4)",
-    "django-storages (==1.14.6)",
-    "idna (==3.10)",
-    "isodate (==0.7.2)",
-    "pillow (==11.3.0)",
-    "psycopg2 (==2.9.10)",
-    "pycparser (==2.22)",
-    "python-decouple (==3.8)",
-    "requests (==2.32.4)",
-    "six (==1.17.0)",
-    "sqlparse (==0.5.3)",
-    "typing-extensions (==4.14.1)",
-    "tzdata (==2025.2)",
-    "urllib3 (==2.5.0)"
+    "django (>=5.1.6,<6.0.0)",
+    "pillow (>=11.1.0,<12.0.0)",
+    "psycopg2-binary (>=2.9.10,<3.0.0)",
+    "django-environ (>=0.12.0,<0.13.0)",
+    "azure-storage-blob (>=12.24.1,<13.0.0)",
+    "django-storages[azure] (>=1.14.5,<2.0.0)"
 ]
 
 [build-system]
